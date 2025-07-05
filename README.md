@@ -1,19 +1,19 @@
+<p align="center"> <img src="https://komarev.com/ghpvc/?username=HocVoNgThai&label=Profile%20views&color=0e75b6&style=flat" alt="HocVoNgThai" /> </p>
 <div id="header" align="center">
   <img src="https://github.com/user-attachments/assets/93c49ae6-8396-4a0a-b93f-62c7c3082d6c"/>
-
 </div>
 <h1 align="left">Hi everyone 👋, I'm Thai Hoc 📖</h1>
-<p align="center"> <img src="https://komarev.com/ghpvc/?username=HocVoNgThai&label=Profile%20views&color=0e75b6&style=flat" alt="HocVoNgThai" /> </p>
 <h3 align="left">Wellcome to my github profile. If you find anything in my repositories that helpful for your work, feel free to refer to it. Alternatively, it will be greate if you star my repo. It will motivate me a lot ☺️!!!</h3>
 <h3 align="left">Here are some things about me</h3>
 <div align="left">
+  
 👨‍💻 I’m currently studying Information Security at UIT - HCMVNU
 
 🌱 I’m currently looking for an intership opportunity
 
 📝 Some things I write when I'm free: [here](https://viblo.asia/u/Thna1108)
 
-😄 My favorites: reading, traveling and playing guitar...
+😄 My favorites: reading, traveling and playing guitar,...
 </div>
 <h1 align="left" >📫 How to reach me </h1>
 <p align="left">
