@@ -25,14 +25,8 @@
 <div id="header" align="center">
   <img src="https://github.com/user-attachments/assets/62784005-7dfc-4470-b4f9-402bb9b0152ahttps://github.com/user-attachments/assets/93c49ae6-8396-4a0a-b93f-62c7c3082d6c"/>
 </div>
-<div id="header" align="center" style="padding-bottom: 50px;">  
+<div id="header" align="center">  
   <img height=180 align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=HocVoNgThai&show_icons=true&theme=tokyonight&layout=compact&langs_count=8&card_width=500&text_bold=true"/>
-  
+  <img  height=180 align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=HocVoNgThai&show_icons=true&theme=tokyonight&layout=compact&langs_count=8&card_width=500&text_bold=true"/> 
+  <img  height=180 align="center" src="https://github-readme-stats.vercel.app/api?username=HocVoNgThai&show_icons=true&theme=tokyonight&layout=compact&langs_count=8&card_width=500&text_bold=true"/>  
 </div>
-
-
-  <a><img  height=180 align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=HocVoNgThai&show_icons=true&theme=tokyonight&layout=compact&langs_count=8&card_width=500&text_bold=true"/> 
-  <img  height=180 align="center" src="https://github-readme-stats.vercel.app/api?username=HocVoNgThai&show_icons=true&theme=tokyonight&layout=compact&langs_count=8&card_width=500&text_bold=true"/></a>
-  
-  
- 
