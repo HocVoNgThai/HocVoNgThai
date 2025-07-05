@@ -7,14 +7,14 @@
 <h3 align="left">Wellcome to my github profile. If you find anything in my repositories that helpful for your work, feel free to refer to it. Alternatively, it will be greate if you star my repo. It will motivate me a lot ☺️!!!</h3>
 <h3 align="left">Here are some things about me</h3>
 <div align="left">
-👨‍💻 I’m currently studying **Information Security** at **UIT - HCMVNU** 
+👨‍💻 I’m currently studying Information Security at UIT - HCMVNU
 
 🌱 I’m currently looking for an intership opportunity
 
 📝 Some things I write when I'm free: [here](https://viblo.asia/u/Thna1108)
 
 😄 My favorites: reading, traveling and playing guitar...
- </div>
+</div>
 <h1 align="left" >📫 How to reach me </h1>
 <p align="left">
   <a href="https://www.facebook.com/th1126/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/facebook.svg" alt="HocVoNgThai" height="30" width="40" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
