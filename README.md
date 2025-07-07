@@ -29,7 +29,7 @@
   <img src="https://github.com/user-attachments/assets/517a4560-5cea-4af2-8fd9-d720820eadee"/>
 </div>
 <div id="header" align="center">  
-  <img height=180 align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=HocVoNgThai&show_icons=true&theme=tokyonight&layout=compact&langs_count=8&card_width=500&text_bold=true"/>
   <img  height=180 align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=HocVoNgThai&show_icons=true&theme=tokyonight&layout=compact&langs_count=8&card_width=500&text_bold=true"/> 
   <img  height=180 align="center" src="https://github-readme-stats.vercel.app/api?username=HocVoNgThai&show_icons=true&theme=tokyonight&layout=compact&langs_count=8&card_width=500&text_bold=true"/>  
+  <img height=180 align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=HocVoNgThai&show_icons=true&theme=tokyonight&layout=compact&langs_count=8&card_width=500&text_bold=true"/>
 </div>
