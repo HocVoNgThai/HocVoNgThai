@@ -9,9 +9,13 @@
   
 👨‍💻 I’m currently studying Information Security at UIT - HCMVNU
 
-🌱 I’m currently looking for an intership opportunity
+🌱 I’m working as a SOC Analyst Internship
 
 📝 Some things I write when I'm free: [here](https://viblo.asia/u/Thna1108)
+
+🎖️ Badge collection: [here](https://www.credly.com/users/hoc-vo-nguyen-thai/badges#credly)
+
+🚀 Google cloud skills boost: [here](https://www.cloudskillsboost.google/public_profiles/06b03335-de79-440c-8238-dfb10f00a895)
 
 😄 My favorites: reading, traveling and playing guitar,...
 </div>
