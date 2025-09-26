@@ -11,7 +11,7 @@
   
 👨‍💻 I’m currently studying Information Security at UIT - HCMVNU
 
-🌱 I’m working as a SOC Analyst Internship
+🌱 I’m working as a Security Operator Intern
 
 📝 Some things I write when I'm free: [here](https://viblo.asia/u/Thna1108)
 
