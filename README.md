@@ -1,25 +1,19 @@
-<p align="center"> <img src="https://komarev.com/ghpvc/?username=HocVoNgThai&label=Profile%20views&color=0e75b6&style=flat" alt="HocVoNgThai" /> </p>
 <div id="header" align="center">
-  <img src="https://github.com/user-attachments/assets/2c54a2cc-ba38-4ab4-9a7e-20c7f8e42518"/>
+  <img src="https://github.com/user-attachments/assets/62784005-7dfc-4470-b4f9-402bb9b0152ahttps://github.com/user-attachments/assets/93c49ae6-8396-4a0a-b93f-62c7c3082d6c"/>
 </div>
-
----
 <h1 align="left">Hi everyone 👋, I'm Thai Hoc 📖</h1>
-<h3 align="left">Wellcome to my github profile. If you find anything in my repositories that helpful for your work, feel free to refer to it. Alternatively, it will be greate if you star my repo. It will motivate me a lot ☺️!!!</h3>
-<h3 align="left">Here are some things about me</h3>
+<h3 align="left">Wellcome to my github profile. Here are some things about me:</h3>
 <div align="left">
   
-👨‍💻 I’m currently studying Information Security at UIT - HCMVNU
+👨‍💻 Currently studying Information Security at UIT - HCMVNU
 
-🌱 I’m working as a Security Operator Intern
+🌱 Working as a Security Operator Intern
 
-📝 Some things I write when I'm free: [here](https://viblo.asia/u/Thna1108)
+📝 Writing: [here](https://viblo.asia/u/Thna1108)
 
 🎖️ Badge collection: [here](https://www.credly.com/users/hoc-vo-nguyen-thai/badges#credly)
 
 🚀 Google cloud skills boost: [here](https://www.cloudskillsboost.google/public_profiles/06b03335-de79-440c-8238-dfb10f00a895)
-
-😄 My favorites: reading, traveling and playing guitar,...
 </div>
 
 ---
@@ -32,9 +26,6 @@
 
 ---
 <h1 align="left" >🦾 My stats</h1>
-<div id="header" align="center">
-  <img src="https://github.com/user-attachments/assets/62784005-7dfc-4470-b4f9-402bb9b0152ahttps://github.com/user-attachments/assets/93c49ae6-8396-4a0a-b93f-62c7c3082d6c"/>
-</div>
 <div id="header" align="center">  
   <img  height=180 align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=HocVoNgThai&show_icons=true&theme=tokyonight&layout=compact&langs_count=8&card_width=500&text_bold=true"/> 
   <img  height=180 align="center" src="https://github-readme-stats.vercel.app/api?username=HocVoNgThai&show_icons=true&theme=tokyonight&layout=compact&langs_count=8&card_width=500&text_bold=true"/>  
