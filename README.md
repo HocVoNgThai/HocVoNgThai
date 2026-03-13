@@ -5,9 +5,9 @@
 <h3 align="left">Wellcome to my github profile. Here are some things about me:</h3>
 <div align="left">
   
-👨‍💻 Currently studying Information Security at UIT - HCMVNU
+⏳ Having completed my coursework at UIT-HCMVNU with a GPA of 8.38/10
 
-🌱 Working as a Security Operator Intern
+👨‍💻 Working as a Security Engineer | Security R&D
 
 📝 Writing: [here](https://viblo.asia/u/Thna1108)
 
