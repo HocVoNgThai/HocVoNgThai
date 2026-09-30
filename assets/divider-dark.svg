@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="12" viewBox="0 0 1000 12" role="presentation" aria-hidden="true">
-  <style>
-    .sweep { animation: sweep 4.5s cubic-bezier(.65,0,.35,1) infinite alternate; }
-    @keyframes sweep { from { transform: translateX(0); } to { transform: translateX(920px); } }
-    @media (prefers-reduced-motion: reduce) { .sweep { animation: none; } }
-  </style>
-  <line x1="0" y1="6" x2="1000" y2="6" stroke="#2c3138" stroke-width="1"/>
-  <rect class="sweep" x="0" y="4" width="80" height="4" rx="2" fill="#ffb224"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="8" viewBox="0 0 1000 8" shape-rendering="crispEdges" role="presentation" aria-hidden="true" aria-label=""><title></title><style>.run { animation: run 6s steps(120, end) infinite; }@keyframes run { from { transform: translateX(0); } to { transform: translateX(960px); } }@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }</style><defs><pattern id="d" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="#2c3138"/></pattern></defs><rect width="1000" height="8" fill="url(#d)"/><g class="run"><rect x="0" y="0" width="4" height="4" fill="#ffb224"/><rect x="8" y="0" width="4" height="4" fill="#ffb224"/><rect x="16" y="0" width="4" height="4" fill="#ffb224"/><rect x="24" y="0" width="4" height="4" fill="#7cd4f5"/></g></svg>

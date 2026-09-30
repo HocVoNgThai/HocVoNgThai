@@ -1,42 +1,91 @@
+<p>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
   <img src="assets/banner-light.svg" alt="Thai Hoc - Security Engineer, Security R&D at SNP" width="100%">
 </picture>
+</p>
 
 ### Hi, I'm Thai Hoc
 
 Security Engineer working in Security R&D at SNP. I write about what I learn and keep my notes and projects on my own site.
 
+<p>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/divider-dark.svg">
   <img src="assets/divider-light.svg" alt="" width="100%">
 </picture>
+</p>
 
+<p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/h-links-dark.svg">
+  <img src="assets/h-links-light.svg" alt="Links" height="36">
+</picture>
+</p>
 
-| | |
-|---|---|
-| `site` | [thiscooking.site](https://thiscooking.site) |
-| `writing` | [viblo.asia/u/Thna1108](https://viblo.asia/u/Thna1108) |
-| `badges` | [Credly](https://www.credly.com/users/hoc-vo-nguyen-thai/badges#credly) |
-| `cloud skills` | [Google Cloud Skills Boost](https://www.cloudskillsboost.google/public_profiles/06b03335-de79-440c-8238-dfb10f00a895) |
+<p>
+<a href="https://thiscooking.site"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/link-site-dark.svg">
+  <img src="assets/link-site-light.svg" alt="thiscooking.site" width="420">
+</picture></a>
+</p>
 
+<p>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/divider-dark.svg">
   <img src="assets/divider-light.svg" alt="" width="100%">
 </picture>
+</p>
 
+<p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/h-contact-dark.svg">
+  <img src="assets/h-contact-light.svg" alt="Contact" height="36">
+</picture>
+</p>
 
-### Contact
+<p>
+<a href="mailto:vonguyenthaihocilt260@gmail.com"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/btn-email-dark.svg">
+  <img src="assets/btn-email-light.svg" alt="Email" width="120">
+</picture></a>
+<a href="https://www.linkedin.com/in/th1126/"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/btn-linkedin-dark.svg">
+  <img src="assets/btn-linkedin-light.svg" alt="LinkedIn" width="120">
+</picture></a>
+<a href="https://www.facebook.com/th1126/"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/btn-facebook-dark.svg">
+  <img src="assets/btn-facebook-light.svg" alt="Facebook" width="120">
+</picture></a>
+</p>
 
-[Email](mailto:vonguyenthaihocilt260@gmail.com) · [LinkedIn](https://www.linkedin.com/in/th1126/) · [Facebook](https://www.facebook.com/th1126/)
-
+<p>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/divider-dark.svg">
   <img src="assets/divider-light.svg" alt="" width="100%">
 </picture>
+</p>
 
+<p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/scene-dark.svg">
+  <img src="assets/scene-light.svg" alt="Pixel scene: a hooded figure walks along and unlocks padlocks" width="100%">
+</picture>
+</p>
 
-### Activity
+<p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/divider-dark.svg">
+  <img src="assets/divider-light.svg" alt="" width="100%">
+</picture>
+</p>
+
+<p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/h-activity-dark.svg">
+  <img src="assets/h-activity-light.svg" alt="Activity" height="36">
+</picture>
+</p>
 
 <p align="center">
   <picture>
