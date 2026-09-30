@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="12" viewBox="0 0 1000 12" role="presentation" aria-hidden="true">
+  <style>
+    .sweep { animation: sweep 4.5s cubic-bezier(.65,0,.35,1) infinite alternate; }
+    @keyframes sweep { from { transform: translateX(0); } to { transform: translateX(920px); } }
+    @media (prefers-reduced-motion: reduce) { .sweep { animation: none; } }
+  </style>
+  <line x1="0" y1="6" x2="1000" y2="6" stroke="#8d9296" stroke-width="1"/>
+  <rect class="sweep" x="0" y="4" width="80" height="4" rx="2" fill="#7d2600"/>
+</svg>
