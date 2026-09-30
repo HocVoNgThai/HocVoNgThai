@@ -3,7 +3,7 @@
 usage: python3 tools/gen_stats.py OUT_DIR [--sample]
 env:   GITHUB_TOKEN, GITHUB_USER (default: repository owner)
 """
-import datetime, json, os, sys, urllib.request
+import datetime, json, os, re, sys, urllib.error, urllib.request
 sys.path.insert(0, os.path.dirname(__file__))
 from pixelfont import THEMES, head, panel, ptext, runs, text_w
 
@@ -14,15 +14,21 @@ QUERY = """query($login:String!){ user(login:$login){
   contributionsCollection{ contributionCalendar{ totalContributions weeks{ contributionDays{ date contributionCount } } } }
 } }"""
 
-def fetch(login, token):
-    req = urllib.request.Request('https://api.github.com/graphql',
-        data=json.dumps({'query': QUERY, 'variables': {'login': login}}).encode(),
-        headers={'Authorization': f'Bearer {token}', 'Content-Type': 'application/json', 'User-Agent': 'pixel-profile'})
-    u = json.load(urllib.request.urlopen(req, timeout=30))['data']['user']
-    days = sorted((d['date'], d['contributionCount'])
-                  for w in u['contributionsCollection']['contributionCalendar']['weeks'] for d in w['contributionDays'])
+def _get(url, token=None, data=None, accept=None):
+    h = {'User-Agent': 'pixel-profile'}
+    if token: h['Authorization'] = f'Bearer {token}'
+    if data is not None: h['Content-Type'] = 'application/json'
+    if accept: h['Accept'] = accept
+    req = urllib.request.Request(url, data=data, headers=h)
+    try:
+        return urllib.request.urlopen(req, timeout=30).read().decode()
+    except urllib.error.HTTPError as e:
+        print(f'HTTP {e.code} for {url}: {e.read().decode()[:300]}', file=sys.stderr)
+        raise
+
+def _streaks(days):
     today = datetime.date.today().isoformat()
-    days = [d for d in days if d[0] <= today]
+    days = sorted(d for d in days if d[0] <= today)
     cur = 0
     for i, (_, n) in enumerate(reversed(days)):
         if n > 0: cur += 1
@@ -32,17 +38,57 @@ def fetch(login, token):
     for _, n in days:
         run = run + 1 if n > 0 else 0
         best = max(best, run)
-    langs = {}
+    return cur, best
+
+def _langs(sizes):
+    total = sum(sizes.values()) or 1
+    return [(n, round(b * 100 / total)) for n, b in sorted(sizes.items(), key=lambda kv: -kv[1])[:5]]
+
+def fetch_graphql(login, token):
+    body = json.dumps({'query': QUERY, 'variables': {'login': login}}).encode()
+    res = json.loads(_get('https://api.github.com/graphql', token, body))
+    if res.get('errors') or not res.get('data', {}).get('user'):
+        raise RuntimeError(f'GraphQL errors: {res.get("errors")}')
+    u = res['data']['user']
+    days = [(d['date'], d['contributionCount'])
+            for w in u['contributionsCollection']['contributionCalendar']['weeks'] for d in w['contributionDays']]
+    sizes = {}
     for r in u['repositories']['nodes']:
         for e in r['languages']['edges']:
-            langs[e['node']['name']] = langs.get(e['node']['name'], 0) + e['size']
-    total = sum(langs.values()) or 1
-    top = sorted(langs.items(), key=lambda kv: -kv[1])[:5]
+            sizes[e['node']['name']] = sizes.get(e['node']['name'], 0) + e['size']
+    cur, best = _streaks(days)
     return dict(contribs=u['contributionsCollection']['contributionCalendar']['totalContributions'],
                 current=cur, longest=best, repos=u['repositories']['totalCount'],
                 stars=sum(r['stargazerCount'] for r in u['repositories']['nodes']),
-                followers=u['followers']['totalCount'],
-                langs=[(n, round(b * 100 / total)) for n, b in top])
+                followers=u['followers']['totalCount'], langs=_langs(sizes))
+
+def fetch_rest(login, token):
+    """Fallback: REST for profile numbers, the public contribution graph for the streaks."""
+    user = json.loads(_get(f'https://api.github.com/users/{login}', token))
+    repos = json.loads(_get(f'https://api.github.com/users/{login}/repos?per_page=100&type=owner', token))
+    repos = [r for r in repos if not r.get('fork')]
+    sizes = {}
+    for r in repos[:60]:
+        try:
+            for n, b in json.loads(_get(r['languages_url'], token)).items(): sizes[n] = sizes.get(n, 0) + b
+        except Exception: pass
+    html = _get(f'https://github.com/users/{login}/contributions')
+    ids = dict((i, d) for d, i in re.findall(r'data-date="(\d{4}-\d{2}-\d{2})"[^>]*?id="(contribution-day-component-[\d-]+)"', html))
+    ids.update((i, d) for i, d in re.findall(r'id="(contribution-day-component-[\d-]+)"[^>]*?data-date="(\d{4}-\d{2}-\d{2})"', html))
+    days = []
+    for i, txt in re.findall(r'<tool-tip[^>]*for="(contribution-day-component-[\d-]+)"[^>]*>([^<]*)</tool-tip>', html):
+        m = re.match(r'(\d+) contribution', txt.strip())
+        if i in ids: days.append((ids[i], int(m.group(1)) if m else 0))
+    cur, best = _streaks(days)
+    return dict(contribs=sum(n for _, n in days), current=cur, longest=best, repos=user['public_repos'],
+                stars=sum(r['stargazers_count'] for r in repos), followers=user['followers'], langs=_langs(sizes))
+
+def fetch(login, token):
+    try:
+        return fetch_graphql(login, token)
+    except Exception as e:
+        print(f'GraphQL failed ({e}); falling back to REST', file=sys.stderr)
+        return fetch_rest(login, token)
 
 SAMPLE = dict(contribs=667, current=4, longest=15, repos=12, stars=3, followers=9,
               langs=[('Python', 46), ('TypeScript', 24), ('Shell', 14), ('Go', 9), ('C', 7)])
@@ -89,7 +135,8 @@ def langs_card(t, d):
     css = '.b { animation: grow .6s steps(6, end) both; transform-box: fill-box; transform-origin: 0 50%; } @keyframes grow { from { transform: scaleX(0); } to { transform: none; } }'
     o = [head(W, H, 'Top languages', css), panel(0, 0, W, H, 4, t['raised'], t['fg'])]
     o.append(ptext('>', 24, 20, 3, t['accent']) + ptext('Top languages', 52, 20, 3, t['fg']))
-    bx, bw = 156, 180
+    bx = 24 + max(text_w(n, 2) for n, _ in d['langs'][:5]) + 16
+    bw = W - 24 - 60 - bx
     for i, (name, pct) in enumerate(d['langs'][:5]):
         y = 60 + i * 22
         o.append(ptext(name, 24, y, 2, t['fg']))
