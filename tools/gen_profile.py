@@ -1,8 +1,8 @@
-"""Builds the profile SVGs: the overview bento card, the snake card and the link buttons, light and dark.
+"""Builds the profile SVGs: the overview bento card and the link buttons, light and dark.
 
 usage:
   python3 tools/gen_profile.py static assets                       # link buttons (committed)
-  python3 tools/gen_profile.py live dist [--sample] [--snake DIR]  # overview-*.svg, snake-card-*.svg
+  python3 tools/gen_profile.py live dist [--sample]               # overview-*.svg
 env (live): GITHUB_TOKEN, GITHUB_USER
 needs: pip install fonttools brotli  (text measuring)
 """
@@ -154,7 +154,7 @@ def bento(t, d):
                  f'<rect x="22" y="{yy + 14}" width="4" height="28" rx="2" fill="{ACC[i]}"/>'
                  f'<text x="42" y="{yy + 35}" font-size="19" font-weight="700" fill="{t["fg"]}">{esc(s)}</text>')
     o.append('</g>')
-    # E stats: four numbers and a weekly bar sparkline (the snake card below shows the full graph)
+    # E stats: four numbers and a weekly bar sparkline (the snake below shows the full graph)
     o += [g(4), card(340, 220, 660, 220), label(362, 258, 'ACTIVITY')]
     stats = [(f'{d["contribs"]:,}', 'contributions / yr'), (str(d['active']), 'active days'),
              (str(d['current']), 'day streak now'), (str(d['longest']), 'day best streak')]
@@ -185,17 +185,6 @@ def bento(t, d):
     o.append(f'<rect class="cu" x="{ax + w + 4:.0f}" y="{ay + (len(about) - 1) * lh - fs + 2}" width="10" height="{fs + 2}" rx="1.5" fill="{t["glow"]}"/>')
     o.append('</g>')
     return svg(W, H, f'{NAME}: Security Engineer, Security R&D at SNP. ' + ABOUT, css, ''.join(o), fonts('PG', 'PM', 'PS'))
-
-# ---------------------------------------------------------------- snake card
-def snake_card(t, raw):
-    """Wraps the Platane/snk output in a card that matches the bento grid."""
-    inner = raw[raw.index('>', raw.index('<svg')) + 1: raw.rindex('</svg>')]
-    inner = inner.replace('</style>', '.u{display:none}</style>', 1)  # drop the progress bar
-    W, H = 1000, 210
-    body = (f'<rect x=".5" y=".5" width="{W-1}" height="{H-1}" rx="18" fill="{t["card"]}" stroke="{t["line"]}"/>'
-            f'<text x="22" y="38" class="m" font-size="11" letter-spacing="2" fill="{t["muted"]}">CONTRIBUTION SNAKE</text>'
-            f'<svg x="22" y="52" width="956" height="140" viewBox="-12 -12 880 128" overflow="hidden">{inner}</svg>')
-    return svg(W, H, 'Snake eating the contribution graph', '', body, fonts(('PM', 400)))
 
 # ---------------------------------------------------------------- buttons (static)
 def button(t, label):
@@ -275,12 +264,7 @@ def main():
         login = os.environ.get('GITHUB_USER') or os.environ.get('GITHUB_REPOSITORY_OWNER') or 'HocVoNgThai'
         d = sample() if '--sample' in sys.argv else fetch(login, os.environ['GITHUB_TOKEN'])
         d['avatar'] = avatar(login)
-        snk = sys.argv[sys.argv.index('--snake') + 1] if '--snake' in sys.argv else None
-        for name, t in THEMES.items():
-            write(f'overview-{name}.svg', bento(t, d))
-            src = snk and os.path.join(snk, f'snake-{name}.svg')
-            if src and os.path.exists(src):
-                with open(src) as f: write(f'snake-card-{name}.svg', snake_card(t, f.read()))
+        for name, t in THEMES.items(): write(f'overview-{name}.svg', bento(t, d))
     print(f'{mode} ok')
 
 if __name__ == '__main__':
