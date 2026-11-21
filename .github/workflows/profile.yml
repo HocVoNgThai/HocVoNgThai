@@ -17,18 +17,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Pixel stat cards
+      - name: Bento overview card
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_USER: ${{ github.repository_owner }}
-        run: python3 tools/gen_stats.py dist
+        run: |
+          pip install --quiet fonttools brotli
+          python3 tools/gen_profile.py live dist
 
       - uses: Platane/snk@v3
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
-            dist/github-snake.svg?color_snake=#0d1012&color_dots=#b5b8ba,#eadf9a,#f9d630,#c9a400,#7d2600
-            dist/github-snake-dark.svg?color_snake=#7cd4f5&color_dots=#181b1f,#5a4410,#a8770f,#ffb224,#ffd37a
+            dist/github-snake.svg?color_snake=#ffb347&color_dots=#e6eaef,#c6dbff,#8fb8ff,#4f8cff,#1d4ed8
+            dist/github-snake-dark.svg?color_snake=#ffb347&color_dots=#1b2230,#0e3a75,#1c5fb8,#3b82f6,#93c5fd
 
       - uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
