@@ -17,13 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: Platane/snk@v3
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/snake-light.svg?color_snake=#ffb347&color_dots=#e6eaef,#c6dbff,#8fb8ff,#4f8cff,#1d4ed8
-            dist/snake-dark.svg?color_snake=#ffb347&color_dots=#1b2230,#0e3a75,#1c5fb8,#3b82f6,#93c5fd
-
       - name: Overview card
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -31,6 +24,13 @@ jobs:
         run: |
           pip install --quiet fonttools brotli
           python3 tools/gen_profile.py live dist
+
+      - uses: Platane/snk@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/snake-light.svg?color_snake=#ffb347&color_dots=#e6eaef,#c6dbff,#8fb8ff,#4f8cff,#1d4ed8
+            dist/snake-dark.svg?color_snake=#ffb347&color_dots=#1b2230,#0e3a75,#1c5fb8,#3b82f6,#93c5fd
 
       - uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
