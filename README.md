@@ -19,3 +19,10 @@
   <img src="assets/btn-facebook-light.svg" height="40" alt="Facebook">
 </picture></a>
 </p>
+
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/HocVoNgThai/HocVoNgThai/output/github-snake-dark.svg">
+  <img src="https://raw.githubusercontent.com/HocVoNgThai/HocVoNgThai/output/github-snake.svg" width="100%" alt="Snake eating my contribution graph">
+</picture>
+</p>

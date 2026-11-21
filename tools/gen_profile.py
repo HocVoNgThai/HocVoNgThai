@@ -19,9 +19,8 @@ TEAM = 'SECURITY R&D · SNP'
 NOW = ('Security R&D', 'at SNP')
 AREAS = ['Security R&D', 'Security Solution', 'AI Security', 'DevOps']
 ROLES = ['Security Architect', 'Security Solution']
-ABOUT = ['Security Engineer in the Security R&D team at SNP.',
-         'I design security architecture and build security solutions,',
-         'with a growing focus on AI security and DevOps.']
+ABOUT = ('Security Engineer in the Security R&D team at SNP. I design security architecture and build '
+         'security solutions, with a growing focus on AI security and DevOps.')
 LINKS = [('email', 'Email'), ('linkedin', 'LinkedIn'), ('facebook', 'Facebook')]
 
 # ---------------------------------------------------------------- fonts (OFL, subset to ASCII + a few symbols)
@@ -51,6 +50,16 @@ def width(text, fn, size):
     cmap, hmtx, upm = _metrics[fn]
     return sum(hmtx[cmap[ord(c)]][0] for c in text if ord(c) in cmap) * size / upm
 
+def wrap(text, fn, size, maxw):
+    lines, cur = [], ''
+    for word in text.split():
+        trial = f'{cur} {word}'.strip()
+        if cur and width(trial, fn, size) > maxw:
+            lines.append(cur); cur = word
+        else:
+            cur = trial
+    return lines + [cur]
+
 def esc(s):
     return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
 
@@ -70,11 +79,12 @@ ACC = ['#4f8cff', '#ffb347', '#2bb9a0', '#a78bfa']
 
 # ---------------------------------------------------------------- bento (live)
 def bento(t, d):
-    W, H = 1000, 630
+    W, H = 1000, 600
     css = ('.cd{animation:cd .6s ease-out both}@keyframes cd{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}'
            '.ce{animation:ce .35s ease-out both}@keyframes ce{from{opacity:0}to{opacity:1}}'
            '.pg{transform-box:fill-box;transform-origin:center;animation:pg 1.8s ease-out infinite}'
            '@keyframes pg{0%{transform:scale(1);opacity:.9}70%,100%{transform:scale(3);opacity:0}}'
+           '.rg{transform-box:fill-box;transform-origin:center;animation:rg 14s linear infinite}@keyframes rg{to{transform:rotate(360deg)}}'
            '.ty{transform-box:fill-box;transform-origin:left center}'
            '.fk{animation:fk .7s linear both}'
            '@keyframes fk{0%{opacity:.15}12%{opacity:1}22%{opacity:.3}34%{opacity:1}46%{opacity:.55}58%,100%{opacity:1}}'
@@ -87,13 +97,15 @@ def bento(t, d):
     g = lambda i: f'<g class="cd" style="animation-delay:{i * .12:.2f}s">'
     o = [f'<defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{ACC[0]}"/><stop offset="1" stop-color="{ACC[2]}"/></linearGradient>'
          f'<linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="{t["glow"]}" stop-opacity="0"/><stop offset=".5" stop-color="{t["glow"]}" stop-opacity=".14"/><stop offset="1" stop-color="{t["glow"]}" stop-opacity="0"/></linearGradient>'
-         f'<clipPath id="ac"><rect x="0" y="460" width="1000" height="170" rx="18"/></clipPath>']
+         f'<clipPath id="av"><circle cx="86" cy="100" r="48"/></clipPath>'
+         f'<clipPath id="ac"><rect x="0" y="460" width="1000" height="140" rx="18"/></clipPath>']
 
     # typing clips for the about panel
-    ax, ay, lh, fs = 32, 538, 30, 19
+    ax, ay, lh, fs = 32, 540, 32, 19
+    about = wrap(ABOUT, 'Sora-400.woff2', fs, 1000 - 2 * ax - 20)
     t0 = 1.0
     timings = []
-    for i, line in enumerate(ABOUT):
+    for i, line in enumerate(about):
         w = width(line, 'Sora-400.woff2', fs) + 4
         dur = max(.6, len(line) * .028)
         timings.append((t0, dur, w))
@@ -105,7 +117,10 @@ def bento(t, d):
 
     # A identity
     o += [g(0), card(0, 0, 400, 200),
-          f'<circle cx="86" cy="100" r="50" fill="url(#mg)"/><text x="86" y="114" text-anchor="middle" font-size="38" font-weight="700" fill="#fff">TH</text>',
+          f'<circle class="rg" cx="86" cy="100" r="56" fill="none" stroke="url(#mg)" stroke-width="2.5" stroke-dasharray="60 12 8 12" stroke-linecap="round"/>',
+          (f'<image href="{d["avatar"]}" x="38" y="52" width="96" height="96" clip-path="url(#av)" preserveAspectRatio="xMidYMid slice"/>'
+           f'<circle cx="86" cy="100" r="48" fill="none" stroke="{t["line"]}"/>' if d.get('avatar') else
+           f'<circle cx="86" cy="100" r="48" fill="url(#mg)"/><text x="86" y="114" text-anchor="middle" font-size="36" font-weight="700" fill="#fff">TH</text>'),
           f'<text x="158" y="94" font-size="40" font-weight="700" letter-spacing="-1" fill="{t["fg"]}">{esc(NAME)}</text>',
           f'<text x="160" y="124" font-size="17" font-weight="500" fill="{t["muted"]}">{esc(ROLE)}</text>',
           f'<text x="160" y="150" class="m" font-size="12" letter-spacing="1" fill="{t["muted"]}">{esc(TEAM)}</text></g>']
@@ -153,19 +168,19 @@ def bento(t, d):
              f'<text x="978" y="418" text-anchor="end" font-size="15" font-weight="700" fill="{t["fg"]}">{d["longest"]} '
              f'<tspan font-weight="500" fill="{t["muted"]}">day best streak</tspan></text></g>')
     # F about panel: lines type in, flicker, then a blinking cursor
-    o += [g(5), card(0, 460, 1000, 170),
-          f'<rect class="gl" x="1" y="461" width="998" height="168" rx="17" fill="none" stroke="{t["glow"]}" stroke-width="1.5"/>',
-          f'<g clip-path="url(#ac)"><rect class="sc" x="0" y="460" width="160" height="170" fill="url(#sg)"/></g>',
+    o += [g(5), card(0, 460, 1000, 140),
+          f'<rect class="gl" x="1" y="461" width="998" height="138" rx="17" fill="none" stroke="{t["glow"]}" stroke-width="1.5"/>',
+          f'<g clip-path="url(#ac)"><rect class="sc" x="0" y="460" width="160" height="140" fill="url(#sg)"/></g>',
           label(32, 498, 'ABOUT'),
           f'<circle class="cu" cx="96" cy="494" r="3.5" fill="{t["live"]}"/>']
-    for i, line in enumerate(ABOUT):
+    for i, line in enumerate(about):
         start, dur, w = timings[i]
         o.append(f'<g clip-path="url(#tc{i})"><text class="s fk" style="animation-delay:{start + dur:.2f}s" x="{ax}" y="{ay + i * lh}" '
                  f'font-size="{fs}" fill="{t["fg"]}">{esc(line)}</text></g>')
     end, dur, w = timings[-1]
-    o.append(f'<rect class="cu" x="{ax + w + 4:.0f}" y="{ay + (len(ABOUT) - 1) * lh - fs + 2}" width="10" height="{fs + 2}" rx="1.5" fill="{t["glow"]}"/>')
+    o.append(f'<rect class="cu" x="{ax + w + 4:.0f}" y="{ay + (len(about) - 1) * lh - fs + 2}" width="10" height="{fs + 2}" rx="1.5" fill="{t["glow"]}"/>')
     o.append('</g>')
-    return svg(W, H, f'{NAME}: Security Engineer, Security R&D at SNP. ' + ' '.join(ABOUT), css, ''.join(o), fonts('PG', 'PM', 'PS'))
+    return svg(W, H, f'{NAME}: Security Engineer, Security R&D at SNP. ' + ABOUT, css, ''.join(o), fonts('PG', 'PM', 'PS'))
 
 # ---------------------------------------------------------------- buttons (static)
 def button(t, label):
@@ -201,6 +216,17 @@ def fetch(login, token):
     weeks = [[(d['date'], d['contributionCount']) for d in w['contributionDays']] for w in cal['weeks']]
     return dict(contribs=cal['totalContributions'], weeks=weeks, longest=_longest([x for w in weeks for x in w]))
 
+def avatar(login):
+    """The GitHub avatar as a data URI (SVG images on GitHub cannot load external files)."""
+    try:
+        req = urllib.request.Request(f'https://avatars.githubusercontent.com/{login}?s=192', headers={'User-Agent': 'profile-builder'})
+        r = urllib.request.urlopen(req, timeout=30)
+        mime = r.headers.get_content_type() or 'image/png'
+        return f'data:{mime};base64,' + base64.b64encode(r.read()).decode()
+    except Exception as e:
+        print(f'avatar fetch failed ({e}); using monogram', file=sys.stderr)
+        return None
+
 def sample():
     rnd = random.Random(7)
     start = datetime.date.today() - datetime.timedelta(weeks=52)
@@ -218,7 +244,9 @@ def main():
         for key, lab in LINKS:
             for name, t in THEMES.items(): write(f'btn-{key}-{name}.svg', button(t, lab))
     else:
-        d = sample() if '--sample' in sys.argv else fetch(os.environ.get('GITHUB_USER') or os.environ['GITHUB_REPOSITORY_OWNER'], os.environ['GITHUB_TOKEN'])
+        login = os.environ.get('GITHUB_USER') or os.environ.get('GITHUB_REPOSITORY_OWNER') or 'HocVoNgThai'
+        d = sample() if '--sample' in sys.argv else fetch(login, os.environ['GITHUB_TOKEN'])
+        d['avatar'] = avatar(login)
         for name, t in THEMES.items(): write(f'bento-{name}.svg', bento(t, d))
     print(f'{mode} ok')
 
