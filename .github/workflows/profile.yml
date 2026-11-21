@@ -17,20 +17,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Bento overview card
+      - uses: Platane/snk@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            snk/snake-light.svg?color_snake=#ffb347&color_dots=#e6eaef,#c6dbff,#8fb8ff,#4f8cff,#1d4ed8
+            snk/snake-dark.svg?color_snake=#ffb347&color_dots=#1b2230,#0e3a75,#1c5fb8,#3b82f6,#93c5fd
+
+      - name: Overview and snake cards
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_USER: ${{ github.repository_owner }}
         run: |
           pip install --quiet fonttools brotli
-          python3 tools/gen_profile.py live dist
-
-      - uses: Platane/snk@v3
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/github-snake.svg?color_snake=#ffb347&color_dots=#e6eaef,#c6dbff,#8fb8ff,#4f8cff,#1d4ed8
-            dist/github-snake-dark.svg?color_snake=#ffb347&color_dots=#1b2230,#0e3a75,#1c5fb8,#3b82f6,#93c5fd
+          python3 tools/gen_profile.py live dist --snake snk
 
       - uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
