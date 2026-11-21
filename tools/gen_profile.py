@@ -1,8 +1,8 @@
-"""Builds the profile SVGs: the live bento card and the link buttons, each in light and dark.
+"""Builds the profile SVGs: the overview bento card, the snake card and the link buttons, light and dark.
 
 usage:
-  python3 tools/gen_profile.py static assets         # link buttons (committed)
-  python3 tools/gen_profile.py live dist [--sample]  # bento-dark.svg / bento-light.svg from GitHub data
+  python3 tools/gen_profile.py static assets                       # link buttons (committed)
+  python3 tools/gen_profile.py live dist [--sample] [--snake DIR]  # overview-*.svg, snake-card-*.svg
 env (live): GITHUB_TOKEN, GITHUB_USER
 needs: pip install fonttools brotli  (text measuring)
 """
@@ -85,6 +85,7 @@ def bento(t, d):
            '.pg{transform-box:fill-box;transform-origin:center;animation:pg 1.8s ease-out infinite}'
            '@keyframes pg{0%{transform:scale(1);opacity:.9}70%,100%{transform:scale(3);opacity:0}}'
            '.rg{transform-box:fill-box;transform-origin:center;animation:rg 14s linear infinite}@keyframes rg{to{transform:rotate(360deg)}}'
+           '.br{transform-box:fill-box;transform-origin:bottom;animation:br .6s cubic-bezier(.3,.1,.2,1) both}@keyframes br{from{transform:scaleY(0)}to{transform:scaleY(1)}}'
            '.ty{transform-box:fill-box;transform-origin:left center}'
            '.fk{animation:fk .7s linear both}'
            '@keyframes fk{0%{opacity:.15}12%{opacity:1}22%{opacity:.3}34%{opacity:1}46%{opacity:.55}58%,100%{opacity:1}}'
@@ -153,20 +154,23 @@ def bento(t, d):
                  f'<rect x="22" y="{yy + 14}" width="4" height="28" rx="2" fill="{ACC[i]}"/>'
                  f'<text x="42" y="{yy + 35}" font-size="19" font-weight="700" fill="{t["fg"]}">{esc(s)}</text>')
     o.append('</g>')
-    # E activity heatmap
-    ncol = 46
-    o += [g(4), card(340, 220, 660, 220), label(362, 258, f'ACTIVITY · LAST {ncol} WEEKS')]
-    weeks = d['weeks'][-ncol:]
-    peak = max([n for wk in weeks for _, n in wk] + [1])
-    for ci, wk in enumerate(weeks):
-        for ri, (date, n) in enumerate(wk):
-            lvl = 0 if n == 0 else 1 + min(3, int(4 * n / (peak + 1)))
-            o.append(f'<rect class="ce" style="animation-delay:{.6 + ci * .02:.3f}s" x="{362 + ci * 13.6:.1f}" y="{276 + ri * 15}" '
-                     f'width="11" height="11" rx="2.5" fill="{t["heat"][lvl]}"><title>{date}: {n}</title></rect>')
-    o.append(f'<text x="362" y="418" font-size="15" font-weight="700" fill="{t["fg"]}">{d["contribs"]:,} '
-             f'<tspan font-weight="500" fill="{t["muted"]}">contributions in the last year</tspan></text>'
-             f'<text x="978" y="418" text-anchor="end" font-size="15" font-weight="700" fill="{t["fg"]}">{d["longest"]} '
-             f'<tspan font-weight="500" fill="{t["muted"]}">day best streak</tspan></text></g>')
+    # E stats: four numbers and a weekly bar sparkline (the snake card below shows the full graph)
+    o += [g(4), card(340, 220, 660, 220), label(362, 258, 'ACTIVITY')]
+    stats = [(f'{d["contribs"]:,}', 'contributions / yr'), (str(d['active']), 'active days'),
+             (str(d['current']), 'day streak now'), (str(d['longest']), 'day best streak')]
+    for i, (num, lab) in enumerate(stats):
+        x = 362 + i * 156
+        o.append(f'<text x="{x}" y="306" font-size="32" font-weight="700" letter-spacing="-1" fill="{t["fg"]}">{num}</text>'
+                 f'<text x="{x + 1}" y="328" class="m" font-size="11" fill="{t["muted"]}">{esc(lab)}</text>')
+    weekly = [sum(n for _, n in wk) for wk in d['weeks'][-40:]]
+    top = max(weekly + [1])
+    bw = 616 / len(weekly)
+    for i, v in enumerate(weekly):
+        h = max(3, 62 * v / top)
+        lvl = 0 if v == 0 else 1 + min(3, int(4 * v / (top + 1)))
+        o.append(f'<rect class="br" style="animation-delay:{.7 + i * .025:.3f}s" x="{362 + i * bw:.1f}" y="{414 - h:.1f}" '
+                 f'width="{bw - 4:.1f}" height="{h:.1f}" rx="2" fill="{t["heat"][max(lvl, 1) if v else 0]}"><title>week of {d["weeks"][-40:][i][0][0]}: {v}</title></rect>')
+    o.append('</g>')
     # F about panel: lines type in, flicker, then a blinking cursor
     o += [g(5), card(0, 460, 1000, 140),
           f'<rect class="gl" x="1" y="461" width="998" height="138" rx="17" fill="none" stroke="{t["glow"]}" stroke-width="1.5"/>',
@@ -181,6 +185,17 @@ def bento(t, d):
     o.append(f'<rect class="cu" x="{ax + w + 4:.0f}" y="{ay + (len(about) - 1) * lh - fs + 2}" width="10" height="{fs + 2}" rx="1.5" fill="{t["glow"]}"/>')
     o.append('</g>')
     return svg(W, H, f'{NAME}: Security Engineer, Security R&D at SNP. ' + ABOUT, css, ''.join(o), fonts('PG', 'PM', 'PS'))
+
+# ---------------------------------------------------------------- snake card
+def snake_card(t, raw):
+    """Wraps the Platane/snk output in a card that matches the bento grid."""
+    inner = raw[raw.index('>', raw.index('<svg')) + 1: raw.rindex('</svg>')]
+    inner = inner.replace('</style>', '.u{display:none}</style>', 1)  # drop the progress bar
+    W, H = 1000, 210
+    body = (f'<rect x=".5" y=".5" width="{W-1}" height="{H-1}" rx="18" fill="{t["card"]}" stroke="{t["line"]}"/>'
+            f'<text x="22" y="38" class="m" font-size="11" letter-spacing="2" fill="{t["muted"]}">CONTRIBUTION SNAKE</text>'
+            f'<svg x="22" y="52" width="956" height="140" viewBox="-12 -12 880 128" overflow="hidden">{inner}</svg>')
+    return svg(W, H, 'Snake eating the contribution graph', '', body, fonts(('PM', 400)))
 
 # ---------------------------------------------------------------- buttons (static)
 def button(t, label):
@@ -202,6 +217,19 @@ def _get(url, token=None, data=None):
     if data is not None: h['Content-Type'] = 'application/json'
     return urllib.request.urlopen(urllib.request.Request(url, data=data, headers=h), timeout=30).read().decode()
 
+def _current(days):
+    today = datetime.date.today().isoformat()
+    cur = 0
+    for i, (_, n) in enumerate(reversed(sorted(x for x in days if x[0] <= today))):
+        if n > 0: cur += 1
+        elif i == 0: continue
+        else: break
+    return cur
+
+def _summary(weeks):
+    days = [x for w in weeks for x in w]
+    return dict(longest=_longest(days), current=_current(days), active=sum(1 for _, n in days if n > 0))
+
 def _longest(days):
     best = run = 0
     for _, n in sorted(days):
@@ -214,7 +242,7 @@ def fetch(login, token):
     res = json.loads(_get('https://api.github.com/graphql', token, body))
     cal = res['data']['user']['contributionsCollection']['contributionCalendar']
     weeks = [[(d['date'], d['contributionCount']) for d in w['contributionDays']] for w in cal['weeks']]
-    return dict(contribs=cal['totalContributions'], weeks=weeks, longest=_longest([x for w in weeks for x in w]))
+    return dict(contribs=cal['totalContributions'], weeks=weeks, **_summary(weeks))
 
 def avatar(login):
     """The GitHub avatar as a data URI (SVG images on GitHub cannot load external files)."""
@@ -233,7 +261,7 @@ def sample():
     weeks = [[((start + datetime.timedelta(days=w * 7 + i)).isoformat(), rnd.choice([0, 0, 0, 1, 2, 3, 5, 8]))
               for i in range(7)] for w in range(53)]
     days = [x for w in weeks for x in w]
-    return dict(contribs=sum(n for _, n in days), weeks=weeks, longest=_longest(days))
+    return dict(contribs=sum(n for _, n in days), weeks=weeks, **_summary(weeks))
 
 def main():
     mode, out = sys.argv[1], sys.argv[2]
@@ -242,12 +270,17 @@ def main():
         with open(os.path.join(out, name), 'w') as f: f.write(s)
     if mode == 'static':
         for key, lab in LINKS:
-            for name, t in THEMES.items(): write(f'btn-{key}-{name}.svg', button(t, lab))
+            for name, t in THEMES.items(): write(f'link-{key}-{name}.svg', button(t, lab))
     else:
         login = os.environ.get('GITHUB_USER') or os.environ.get('GITHUB_REPOSITORY_OWNER') or 'HocVoNgThai'
         d = sample() if '--sample' in sys.argv else fetch(login, os.environ['GITHUB_TOKEN'])
         d['avatar'] = avatar(login)
-        for name, t in THEMES.items(): write(f'bento-{name}.svg', bento(t, d))
+        snk = sys.argv[sys.argv.index('--snake') + 1] if '--snake' in sys.argv else None
+        for name, t in THEMES.items():
+            write(f'overview-{name}.svg', bento(t, d))
+            src = snk and os.path.join(snk, f'snake-{name}.svg')
+            if src and os.path.exists(src):
+                with open(src) as f: write(f'snake-card-{name}.svg', snake_card(t, f.read()))
     print(f'{mode} ok')
 
 if __name__ == '__main__':
