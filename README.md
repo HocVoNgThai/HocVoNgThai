@@ -7,8 +7,8 @@
 
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/HocVoNgThai/HocVoNgThai/output/snake-card-dark.svg">
-  <img src="https://raw.githubusercontent.com/HocVoNgThai/HocVoNgThai/output/snake-card-light.svg" width="100%" alt="Snake eating my contribution graph">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/HocVoNgThai/HocVoNgThai/output/snake-dark.svg">
+  <img src="https://raw.githubusercontent.com/HocVoNgThai/HocVoNgThai/output/snake-light.svg" width="100%" alt="Snake eating my contribution graph">
 </picture>
 </p>
 
