@@ -21,7 +21,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_USER: ${{ github.repository_owner }}
-        run: python3 tools/gen_profile.py live dist
+        run: |
+          pip install --quiet fonttools brotli
+          python3 tools/gen_profile.py live dist
 
       - uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
