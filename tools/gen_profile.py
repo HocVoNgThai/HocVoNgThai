@@ -21,7 +21,7 @@ AREAS = ['Security R&D', 'Security Solution', 'AI Security', 'DevOps']
 ROLES = ['Security Architect', 'Security Solution']
 ABOUT = ('Security Engineer in the Security R&D team at SNP. I design security architecture and build '
          'security solutions, with a growing focus on AI security and DevOps.')
-LINKS = [('email', 'Email'), ('linkedin', 'LinkedIn'), ('facebook', 'Facebook')]
+LINKS = [('email', 'Email'), ('linkedin', 'LinkedIn')]
 
 # ---------------------------------------------------------------- fonts (OFL, subset to ASCII + a few symbols)
 FACES = [('PG', 500, 'SpaceGrotesk-500.woff2'), ('PG', 700, 'SpaceGrotesk-700.woff2'),

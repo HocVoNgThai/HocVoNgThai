@@ -21,8 +21,4 @@
   <source media="(prefers-color-scheme: dark)" srcset="assets/link-linkedin-dark.svg">
   <img src="assets/link-linkedin-light.svg" height="40" alt="LinkedIn">
 </picture></a>
-<a href="https://www.facebook.com/th1126/"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/link-facebook-dark.svg">
-  <img src="assets/link-facebook-light.svg" height="40" alt="Facebook">
-</picture></a>
 </p>
