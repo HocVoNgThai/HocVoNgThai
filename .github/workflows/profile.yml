@@ -32,6 +32,12 @@ jobs:
             dist/snake-light.svg?color_snake=#ffb347&color_dots=#e6eaef,#c6dbff,#8fb8ff,#4f8cff,#1d4ed8
             dist/snake-dark.svg?color_snake=#ffb347&color_dots=#1b2230,#0e3a75,#1c5fb8,#3b82f6,#93c5fd
 
+      - name: Hide the snake progress bar
+        run: |
+          sudo sed -i -e 's#</style>#.u{display:none}</style>#' \
+            -e 's#viewBox="-16 -32 880 192" width="880" height="192"#viewBox="-16 -32 880 168" width="880" height="168"#' \
+            dist/snake-light.svg dist/snake-dark.svg
+
       - uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           target_branch: output
